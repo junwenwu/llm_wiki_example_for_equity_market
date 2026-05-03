@@ -1,162 +1,147 @@
-# LLM Wiki (Karpathy Pattern)
+# LLM Wiki for Equity Market Research
 
-A self-maintaining personal knowledge base powered by LLMs, based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285).
+A working example of [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285) applied to **stock market research**.
 
-Instead of re-searching raw documents on every question (like RAG), the LLM **reads your sources once and builds a persistent, interlinked wiki** that compounds over time. The more sources you feed it, the richer and more connected it gets.
+This repo demonstrates how an LLM can build and maintain a persistent, interlinked knowledge base for equity research — tracking 20 stocks across semiconductors, AI/cloud, healthcare, and quantum computing.
 
 ---
 
-## Prerequisites
+## What's Inside
 
-- [Cursor](https://cursor.sh/) (or any LLM-powered editor that reads a schema file)
-- [Obsidian](https://obsidian.md/) (free) for browsing the wiki in real time
+| Folder | Contents |
+|--------|----------|
+| `raw/` | Source data: 120+ files with stock profiles, quarterly earnings, and news for 20 tickers |
+| `wiki/` | AI-generated knowledge base: 40+ interlinked pages with summaries, concepts, and analysis |
+| `CLAUDE.md` | The schema file that instructs the AI how to maintain the wiki |
+| `.github/skills/` | Stock research ingestion skill for automated data fetching |
+
+### Stocks Covered (20 tickers)
+
+**Semiconductors**: NVDA, AMD, AVGO, MU, AXTI, MXL  
+**Optical/Networking**: CIEN, COHR, GLW, VIAV  
+**Big Tech**: MSFT, GOOG, META, TSLA  
+**AI/Software**: PLTR, RDDT  
+**Healthcare**: HIMS, TEM  
+**Quantum Computing**: QBTS  
+**Storage**: SNDK
+
+---
+
+## Original Repository
+
+This is a customized example built on top of the original LLM Wiki template:
+
+**Original repo**: https://github.com/balukosuri/llm-wiki-karpathy
+
+Clone that repo if you want a clean starting point for any domain — not just equities.
+
+---
+
+## How It Works
+
+Instead of RAG (re-searching documents on every query), the LLM:
+
+1. **Reads sources once** and extracts key information
+2. **Creates structured wiki pages** with proper metadata
+3. **Cross-references everything** with `[[wikilinks]]`
+4. **Maintains a glossary** of domain terms
+5. **Logs all activity** for auditability
+
+The wiki compounds over time — each ingest makes it richer.
 
 ---
 
 ## Getting Started
 
-### 1. Clone the repo
+### Prerequisites
+
+- [Cursor](https://cursor.sh/) or any LLM editor (VS Code + GitHub Copilot, Claude Code, etc.)
+- [Obsidian](https://obsidian.md/) (free) — optional but recommended for browsing
+
+### Quick Start
 
 ```bash
-git clone https://github.com/balukosuri/llm-wiki-karpathy.git
-cd llm-wiki-karpathy
+git clone https://github.com/junwenwu/llm_wiki_example_for_equity_market.git
+cd llm_wiki_example_for_equity_market
 ```
 
-### 2. Open the project in Cursor
+Open in Cursor (or your LLM editor). The AI reads `CLAUDE.md` and knows how to work with the wiki.
 
-Cursor reads `CLAUDE.md` automatically and understands the wiki's structure, page formats, and workflows.
+### Commands
 
-If you use a different AI agent (Claude Code, Codex, etc.), paste the contents of `CLAUDE.md` into your agent's context.
+| Command | What it does |
+|---------|--------------|
+| `ingest` | Process new source documents into wiki pages |
+| `Research [TICKER]` | Fetch fresh data from Seeking Alpha and update wiki |
+| `lint the wiki` | Check for contradictions, orphans, stale content |
+| `query: [question]` | Ask anything — AI answers from wiki and can save the response |
 
-### 3. Open the same folder in Obsidian
+---
 
-Open the project directory as an Obsidian vault. You'll have two windows side by side — Cursor on the left where you talk to the AI, Obsidian on the right where you browse the wiki as pages appear.
+## Example Session
 
-### 4. Drop a source into `raw/`
+**You**: Research NVDA
 
-Any document works:
+**AI**: 
+1. Scrapes Seeking Alpha for latest data
+2. Creates/updates `raw/NVDA/` files
+3. Updates `wiki/sources/nvda.md` 
+4. Logs activity in `wiki/log.md`
 
-- Product specs, design docs, or PRDs
-- Meeting transcripts
-- Web articles (use [Obsidian Web Clipper](https://obsidian.md/clipper) to save pages as markdown)
-- Style guides
-- PDFs, reports, email threads saved as text
-- Competitor documentation
+**You**: What are the highest margin stocks in my watchlist?
 
-### 5. Say "ingest"
-
-Type this in Cursor:
-
-> ingest raw/my-document.pdf
-
-The AI will:
-
-1. Read the document
-2. Discuss key takeaways with you
-3. Create a source summary page in `wiki/sources/`
-4. Create new pages for any products, features, personas, or concepts it finds
-5. Update the glossary with new terms
-6. Update the index with all new pages
-7. Update the overview if the big picture shifted
-8. Log everything in `wiki/log.md`
-
-A single source can touch 5-15 wiki pages. Watch them appear in Obsidian in real time.
-
-### 6. Ask questions
-
-> What are the main risks identified across all my sources?
-
-The AI reads the wiki, synthesizes an answer with citations, and asks: *"Should I save this as a wiki page?"* If you say yes, the answer becomes a permanent analysis page. Your questions make the knowledge base richer over time.
-
-### 7. Lint the wiki
-
-Every 10 ingests or so, run a health check:
-
-> lint the wiki
-
-The AI checks for contradictions between pages, stale claims, orphan pages with no links, missing cross-references, and inconsistent terminology. It reports what it found and asks which fixes to apply.
+**AI**: (reads wiki, synthesizes answer with citations)
+> Based on the watchlist analysis, the highest margin stocks are...
+> Should I save this as a wiki analysis page?
 
 ---
 
 ## Repo Structure
 
 ```
-llm-wiki-karpathy/
-├── CLAUDE.md          # Schema — the AI's operating manual
-├── llm-wiki.md        # Karpathy's original idea document
-├── article.md         # Walkthrough article explaining this project
+llm_wiki_example_for_equity_market/
+├── CLAUDE.md              # Schema — AI's operating manual
+├── README.md              # This file
 │
-├── raw/               # Your source documents (AI reads, never writes)
-│   └── .gitkeep
+├── raw/                   # Source data (AI reads, you can add)
+│   ├── NVDA/              # Stock folder with profile, earnings, news
+│   ├── MSFT/
+│   └── ... (20 tickers)
 │
-├── wiki/              # AI-generated knowledge base (AI owns this layer)
-│   ├── index.md       # Master catalog — the AI reads this first on every query
-│   ├── overview.md    # Big-picture synthesis (evolves with each ingest)
-│   ├── glossary.md    # Terms, definitions, and style conventions
-│   └── log.md         # Chronological record of all activity
+├── wiki/                  # AI-generated knowledge base
+│   ├── index.md           # Master catalog
+│   ├── overview.md        # Big-picture synthesis
+│   ├── glossary.md        # Terms and definitions
+│   ├── log.md             # Activity log
+│   ├── sources/           # Stock profile pages (20)
+│   ├── concepts/          # Sector pages (semiconductors, healthcare, quantum)
+│   └── analyses/          # Comparison tables, watchlist analysis
 │
-└── .obsidian/         # Pre-configured Obsidian vault settings
+└── .github/skills/        # Stock research automation skill
 ```
 
-### How the layers work
-
-| Layer | Folder | Who owns it | Purpose |
-|-------|--------|-------------|---------|
-| Raw sources | `raw/` | You | Immutable source documents. The AI reads from here but never modifies anything. |
-| The wiki | `wiki/` | The AI | Structured, interlinked markdown pages. The AI creates, updates, and maintains everything here. |
-| The schema | `CLAUDE.md` | You + AI | Defines page types, workflows, and conventions. Edit this to customize the AI's behavior for your domain. |
-
-### Wiki page types
-
-The AI creates different page types depending on what it finds in your sources:
-
-| Type | Location | What it captures |
-|------|----------|-----------------|
-| Source | `wiki/sources/` | Summary of a raw document — key facts, quotes, metadata |
-| Feature | `wiki/features/` | A product feature — what it does, how it works |
-| Product | `wiki/products/` | A product or tool — overview, versions, related features |
-| Persona | `wiki/personas/` | A user type — goals, pain points, expertise level |
-| Concept | `wiki/concepts/` | A domain idea — definition, related terms, common misconceptions |
-| Style Rule | `wiki/style/` | A writing convention — when to apply, examples, exceptions |
-| Analysis | `wiki/analyses/` | A synthesized output — comparison table, gap analysis, outline |
-
 ---
 
-## Customizing for Your Domain
+## Customization
 
-The schema file `CLAUDE.md` is not set in stone. Edit it to fit your needs:
+Edit `CLAUDE.md` to change:
+- Page types (add "ETF", "Sector Report", etc.)
+- Ingest workflow (skip discussion, auto-save queries)
+- Output formats (comparison tables, earnings summaries)
 
-- **Add new page types.** If your domain needs "API endpoints" or "customer segments" or "recipe variations", add them to the entity types table and tell the AI.
-- **Change the ingest workflow.** If you want the AI to skip the discussion step and just process silently, update the workflow section.
-- **Adjust output formats.** The AI can produce markdown pages, comparison tables, doc outlines, release notes drafts, or persona briefs. Add formats that make sense for your work.
-
----
-
-## Tips
-
-**Ingest one source at a time.** You can batch-ingest, but you lose the chance to guide the AI. Stay involved — read the summaries, tell it what to emphasize, ask follow-ups during ingestion.
-
-**Save your best questions.** When you ask something and get a useful answer, tell the AI to save it as an analysis page. Your explorations compound in the wiki instead of disappearing into chat history.
-
-**Use graph view often.** Press `Cmd+G` in Obsidian. The visual map shows which pages are hubs, which are orphans, and how everything connects.
-
-**Check the glossary before writing.** Open `wiki/glossary.md` before you write anything. It has the right terms, the wrong terms, and the reasons behind each choice.
-
-**Don't write wiki pages yourself.** Your job is to find good sources and ask good questions. The AI handles the summarizing, cross-referencing, filing, and bookkeeping.
-
----
-
-## Use Cases
-
-- **Technical writers** — Ingest specs, transcripts, and competitor docs. Get a living glossary, persona pages, and structured outlines without writing them yourself.
-- **Researchers** — Feed it papers, articles, and reports over weeks. End up with a wiki that has an evolving thesis and all the connections already made.
-- **Product managers** — Ingest PRDs, customer interviews, competitive analyses, and retros. The wiki maintains the big picture.
-- **Students** — Ingest textbook chapters one at a time. The AI builds concept pages, links them together, and flags connections between chapters.
-- **Anyone accumulating knowledge** — Trip planning, hobby research, health tracking, course notes, book clubs. Anything where information comes from multiple sources and you want it organized.
+Add new stocks by saying:
+> Research [NEW_TICKER]
 
 ---
 
 ## Credits
 
-- Pattern by [Andrej Karpathy](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285)
-- Implementation and article by [Balu Kosuri](https://github.com/balukosuri)
+- **LLM Wiki Pattern**: [Andrej Karpathy](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285)
+- **Original Template**: [balukosuri/llm-wiki-karpathy](https://github.com/balukosuri/llm-wiki-karpathy)
+- **Data Source**: [Seeking Alpha](https://seekingalpha.com)
+
+---
+
+## License
+
+MIT — use freely for your own research projects.
