@@ -1,0 +1,15 @@
+{
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "wiki",
+  "attachmentFolderPath": "raw",
+  "useMarkdownLinks": false,
+  "showLineNumber": true,
+  "spellcheck": true,
+  "strictLineBreaks": false,
+  "readableLineLength": true,
+  "showFrontmatter": true,
+  "foldHeading": true,
+  "foldIndent": true,
+  "defaultViewMode": "source"
+}

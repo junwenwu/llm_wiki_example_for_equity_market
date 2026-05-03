@@ -1,1 +1,7 @@
 .DS_Store
+
+# Obsidian workspace (changes frequently, keep vault settings)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/
+.obsidian/cache
