@@ -51,21 +51,53 @@ The wiki compounds over time — each ingest makes it richer.
 
 ---
 
+## Using GitHub Copilot (Instead of Cursor)
+
+The [original LLM Wiki repo](https://github.com/balukosuri/llm-wiki-karpathy) was designed for **Cursor**, which automatically reads the `CLAUDE.md` schema file.
+
+This example uses **GitHub Copilot** in VS Code instead. Here's how to set it up:
+
+### Setup
+
+1. **Install VS Code** with the [GitHub Copilot](https://github.com/features/copilot) extension
+2. **Enable Copilot Chat** — make sure you have access to the chat panel
+3. **Open this repo** in VS Code
+
+### How to Use Copilot Agent Mode
+
+For the best experience, use **Copilot Agent mode** which can read files, run commands, and make edits autonomously:
+
+1. Open **Copilot Chat** (click the Copilot icon or press `Cmd+Shift+I`)
+2. Switch to **Agent mode** (look for the agent/edit toggle at the top of the chat panel)
+3. The agent will automatically read `CLAUDE.md` and understand the wiki structure
+
+### Key Differences from Cursor
+
+| Feature | Cursor | GitHub Copilot |
+|---------|--------|----------------|
+| Schema file | Auto-reads `CLAUDE.md` | Agent mode reads it automatically |
+| Multi-file edits | Built-in | Use Agent mode |
+| Web scraping | Direct | Agent can use `fetch_webpage` tool |
+| Context | Automatic | Use `@workspace` for full context |
+
+### Tips for Copilot
+
+- **Use Agent mode** for multi-step operations like "ingest" or "Research [TICKER]"
+- **Say `@workspace`** if you want Copilot to search across files
+- **The schema file `CLAUDE.md`** tells the agent exactly how to maintain the wiki — it reads this automatically
+
+---
+
 ## Getting Started
-
-### Prerequisites
-
-- [Cursor](https://cursor.sh/) or any LLM editor (VS Code + GitHub Copilot, Claude Code, etc.)
-- [Obsidian](https://obsidian.md/) (free) — optional but recommended for browsing
-
-### Quick Start
 
 ```bash
 git clone https://github.com/junwenwu/llm_wiki_example_for_equity_market.git
 cd llm_wiki_example_for_equity_market
 ```
 
-Open in Cursor (or your LLM editor). The AI reads `CLAUDE.md` and knows how to work with the wiki.
+Open in VS Code, enable Copilot Agent mode, and start chatting.
+
+**Optional**: Open the same folder in [Obsidian](https://obsidian.md/) to browse the wiki with graph view.
 
 ### Commands
 
